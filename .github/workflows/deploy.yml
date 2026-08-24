@@ -20,6 +20,12 @@ jobs:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     runs-on: ubuntu-latest
+    
+    # Set the working directory globally for all run steps
+    defaults:
+      run:
+        working-directory: ./AP-Mentorship-Web
+
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -29,14 +35,13 @@ jobs:
         with:
           node-version: 20
           cache: 'npm'
+          cache-dependency-path: './AP-Mentorship-Web/package-lock.json'
 
       - name: Install dependencies
         run: npm ci
-        working-directory: ./AP-Mentorship-Web
 
       - name: Build
         run: npm run build
-        working-directory: ./AP-Mentorship-Web
 
       - name: Setup Pages
         uses: actions/upload-pages-artifact@v3
